@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accesso</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #1a1510;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+  }
+  .box {
+    background: #faf7f2;
+    padding: 2.5rem 2rem;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 320px;
+  }
+  h1 {
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #7a6f63;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+  input[type=password] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e0d8ce;
+    border-radius: 3px;
+    font-size: 1rem;
+    font-family: 'Lato', sans-serif;
+    background: #fff;
+    outline: none;
+  }
+  input[type=password]:focus { border-color: #b5451b; }
+  button {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: #b5451b;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+  }
+  button:active { background: #8f3615; }
+  .error {
+    color: #b5451b;
+    font-size: 0.85rem;
+    margin-top: 0.75rem;
+  }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>Accesso Staff</h1>
+  <form method="POST">
+    <input type="password" name="password" placeholder="Password" autofocus>
+    <button type="submit">Entra</button>
+    {% if error %}<div class="error">{{ error }}</div>{% endif %}
+  </form>
+</div>
+</body>
+</html>

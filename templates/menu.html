@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menù del Giorno</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #141210;
+    --ink: #f0ebe3;
+    --rust: #e8673a;
+    --gold: #d4a853;
+    --muted: #8a8278;
+    --divider: #2e2a26;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 3rem 1.8rem 5rem;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 2.8rem;
+  }
+
+  .header::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: var(--rust);
+    margin: 1.5rem auto 0;
+  }
+
+  .ristorante {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .titolo-menu {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-top: 0.3rem;
+    color: var(--ink);
+  }
+
+  .data-oggi {
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.7rem;
+  }
+
+  .sezione {
+    margin-bottom: 2.2rem;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .sezione:nth-child(1) { animation-delay: 0.1s; }
+  .sezione:nth-child(2) { animation-delay: 0.2s; }
+  .sezione:nth-child(3) { animation-delay: 0.3s; }
+  .sezione:nth-child(4) { animation-delay: 0.4s; }
+  .sezione:nth-child(5) { animation-delay: 0.5s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .sezione-titolo {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .piatto {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .piatto:last-child { border-bottom: none; }
+
+  .piatto-nome {
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--ink);
+    flex: 1;
+    line-height: 1.3;
+  }
+
+  .piatto-prezzo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    margin-left: 1.2rem;
+    white-space: nowrap;
+  }
+
+  .piatto-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  .nota {
+    margin-top: 2.5rem;
+    padding: 1rem 1.2rem;
+    border-left: 3px solid var(--gold);
+    background: rgba(212,168,83,0.07);
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  .vuoto {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+    font-style: italic;
+    font-size: 1.2rem;
+  }
+
+  .admin-link {
+    display: block;
+    text-align: center;
+    margin-top: 4rem;
+    font-size: 0.7rem;
+    color: var(--divider);
+    text-decoration: none;
+  }
+  .admin-link:hover { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="ristorante">Menù del Giorno</div>
+    <h1 class="titolo-menu">Oggi in tavola</h1>
+    {% if menu.data %}
+      <div class="data-oggi">{{ menu.data }}</div>
+    {% else %}
+      <div class="data-oggi">{{ now }}</div>
+    {% endif %}
+  </header>
+
+  {% set has_content = namespace(value=false) %}
+  {% for sezione in menu.sezioni %}
+    {% if sezione.piatti %}{% set has_content.value = true %}{% endif %}
+  {% endfor %}
+
+  {% if has_content.value %}
+    {% for sezione in menu.sezioni %}
+      {% if sezione.piatti %}
+      <div class="sezione">
+        <div class="sezione-titolo">{{ sezione.titolo }}</div>
+        {% for piatto in sezione.piatti %}
+          {% if piatto.nome %}
+          <div class="piatto">
+            <div>
+              <div class="piatto-nome">{{ piatto.nome }}</div>
+              {% if piatto.desc %}<div class="piatto-desc">{{ piatto.desc }}</div>{% endif %}
+            </div>
+            {% if piatto.prezzo %}<div class="piatto-prezzo">{{ piatto.prezzo }}</div>{% endif %}
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endfor %}
+    {% if menu.nota %}<div class="nota">{{ menu.nota }}</div>{% endif %}
+  {% else %}
+    <div class="vuoto">Il menù di oggi non è ancora disponibile.</div>
+  {% endif %}
+
+</div>
+</body>
+</html>

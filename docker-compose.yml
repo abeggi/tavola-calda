@@ -1,0 +1,16 @@
+version: "3"
+services:
+  menu:
+    build: .
+    container_name: menu-app
+    restart: always
+    ports:
+      - "5000:5000"          # cambia 5000 a sinistra se vuoi un'altra porta
+    volumes:
+      - menu_data:/data      # il menù sopravvive ai riavvii
+    environment:
+      ADMIN_PASSWORD: "fiumara"   # password per lo staff
+      SECRET_KEY: "stringa-casuale-lunga-e-segreta"
+
+volumes:
+  menu_data:
