@@ -1,7 +1,7 @@
 # 1. Crea un virtual environment (opzionale ma consigliato)
 python -m venv venv
 
-# Attivalo:
+## Attivalo:
 # Su Linux/Mac:
 source venv/bin/activate
 
@@ -14,7 +14,6 @@ mkdir data
 # 4. (Opzionale) Imposta variabili d'ambiente
 export SECRET_KEY="la-tua-chiave-segreta"
 export ADMIN_PASSWORD="tuapassword"
-# Su Windows usa 'set' invece di 'export'
 
 # 5. Avvia l'app
 python app.py
